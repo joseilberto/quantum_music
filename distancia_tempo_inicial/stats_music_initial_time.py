@@ -1,9 +1,9 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import os
 import sys
 from collections import Counter, OrderedDict
+from stats_metrics import frequency_data
 
 def find_sigma(distances):
     sigmas = []
@@ -36,7 +36,7 @@ def print_bar_code(song, dir_path):
         with open(dir_path + str(note_token) + '_bar_code.csv', 'w') as file1:
             for idx, note in enumerate(song['notes']):
                 if note_token == note:
-                    print('{}\t{}'.format(song['initial'], 1), file=file1)
+                    print('{},{}'.format(song['initial'], 1), file=file1)
 
 def clear_channel(note):
     return ''.join([char for char in note if char != ' ' and not char.isdigit()])
@@ -63,6 +63,8 @@ song.dropna(axis=0, how='any')
 verbose = sys.argv[1] if len(sys.argv) > 1 else False
 if verbose:
     print_bar_code(song, dir_path) #print all positions from all notes
+
+frequency_data(song['notes'], song_name)
 
 note_counts = Counter(list(song['notes'])).most_common() #returns the notes and their counts
 distances = find_distances(note_counts, song['initial'], dir_path) #returns the values and their counts
