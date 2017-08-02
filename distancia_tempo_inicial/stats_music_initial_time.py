@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import os
+import sys
 from collections import Counter, OrderedDict
 
 def find_sigma(distances):
@@ -22,14 +23,20 @@ def find_distances(note_counts, initial, dir_path):
     distances = []
     for token, count in note_counts:
         positions = np.array([initial[i] for i in range(len(song['notes'])) if token == song['notes'][i] and count > 2])
-        if count > 2: print_bar_code(positions, dir_path, token)
         if np.count_nonzero(np.diff(positions)) != 0 and len(np.diff(positions)) > 0:
             distances.append([np.diff(positions), token])
     return np.array(distances)
 
-def print_bar_code(positions, dir_path, token):
-    df = pd.DataFrame({'positions': pd.Series(positions), 'v1col': pd.Series([1]*len(positions))})
-    df.to_csv('{}/{}_bar_code.dat'.format(dir_path, token), sep = '\t', index = False, header = False)
+def print_bar_code(song, dir_path):
+    """
+    Para que seja feita a impressão, executar o script com qualquer argumento. Exemplo:
+    python3 stats_music_initial_time.py verbose
+    """
+    for note_token in set(song['notes']):
+        with open(dir_path + str(note_token) + '_bar_code.csv', 'w') as file1:
+            for idx, note in enumerate(song['notes']):
+                if note_token == note:
+                    print('{}\t{}'.format(song['initial'], 1), file=file1)
 
 def clear_channel(note):
     return ''.join([char for char in note if char != ' ' and not char.isdigit()])
@@ -44,12 +51,18 @@ def intensity_handler(song):
                 break
     return pd.Series(song_notes)
 
-song_name = 'macarena'; os.makedirs('{}_bar_code'.format(song_name), exist_ok=True); dir_path = './{}_bar_code'.format(song_name)
+song_name = 'macarena'; os.makedirs('{}_bar_code'.format(song_name), exist_ok=True); dir_path = './{}_bar_code/'.format(song_name)
 song = pd.read_csv('{}_file_colunas_novo.txt'.format(song_name), sep = '\t', header = None)
 song[0] = pd.Series([clear_channel(note) + str(song[3][index]) for index, note in enumerate(song[0])]) #clear the numbering in notes and append the channel value to it
 del song[2]; del song[3]; song.columns = ['notes', 'initial', 'intensity'] #delete unnecessary columns from df and rename the columns
 song = song.sort_values('initial'); song = song.reset_index(drop = True) #sort values and reset the indeces
-song['notes'] = intensity_handler(song); del song['intensity'] #handle the intensity differences and remove intensity column once it is done
+song['notes'] = intensity_handler(song) #handle the intensity differences and remove intensity column once it is done
+del song['intensity']
+song.dropna(axis=0, how='any')
+
+verbose = sys.argv[1] if len(sys.argv) > 1 else False
+if verbose:
+    print_bar_code(song, dir_path) #print all positions from all notes
 
 note_counts = Counter(list(song['notes'])).most_common() #returns the notes and their counts
 distances = find_distances(note_counts, song['initial'], dir_path) #returns the values and their counts
