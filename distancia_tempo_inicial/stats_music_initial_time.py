@@ -5,6 +5,8 @@ import sys
 from collections import Counter, OrderedDict
 from stats_metrics import frequency_data, general_data
 
+from processors.processors import get_arguments
+
 def find_sigma(distances):
     sigmas = []
     for token in distances:
@@ -51,7 +53,10 @@ def intensity_handler(song):
                 break
     return pd.Series(song_notes)
 
-song_name = 'macarena'; os.makedirs('{}_bar_code'.format(song_name), exist_ok=True); dir_path = './{}_bar_code/'.format(song_name)
+song_name, make_bar_code = get_arguments(sys.argv[1:])
+# song_name = 'macarena'
+os.makedirs('{}_bar_code'.format(song_name), exist_ok=True)
+dir_path = './{}_bar_code/'.format(song_name)
 song = pd.read_csv('{}_file_colunas_novo.txt'.format(song_name), sep = '\t', header = None)
 song[0] = pd.Series([clear_channel(note) + str(song[3][index]) for index, note in enumerate(song[0])]) #clear the numbering in notes and append the channel value to it
 del song[2]; del song[3]; song.columns = ['notes', 'initial', 'intensity'] #delete unnecessary columns from df and rename the columns
@@ -60,8 +65,7 @@ song['notes'] = intensity_handler(song) #handle the intensity differences and re
 del song['intensity']
 song.dropna(axis=0, how='any')
 
-verbose = sys.argv[1] if len(sys.argv) > 1 else False
-if verbose:
+if make_bar_code:
     print_bar_code(song, dir_path) #print all positions from all notes
 
 frequency_data(song['notes'], song_name)
