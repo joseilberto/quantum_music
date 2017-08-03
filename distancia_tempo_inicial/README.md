@@ -26,3 +26,8 @@ A#00
 
 (A última nota é omitida uma vez que não temos como referência qual será a
 diferença de altura para próxima nota)
+
+#Estatísticas
+O arquivo stats_metrics.py possui as métricas de avaliação dos dados.
+Atualmente, a Lei de Zipf e Herdan-Heaps podem ser avaliadas com os métodos
+implementados.
