@@ -6,8 +6,7 @@ def get_arguments(args):
     make_bar_code = ''
     try:
         opts, args = getopt.getopt(args,"hs:b:",["song=","bar_code="])
-    except:
-        import pdb; pdb.set_trace()
+    except:        
         print('You should run this file like:'
                 'script.py -s song_name -bc True/False')
         sys.exit(2)
