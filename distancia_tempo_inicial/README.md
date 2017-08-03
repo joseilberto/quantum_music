@@ -1,4 +1,5 @@
-#Método da separação diferença de altura
+Método da separação diferença de altura
+============
 
 Aqui, as notas são separadas pela diferença de altura entre as suas sucessivas
 ocorrências. Por exemplo, se observamos a partir do modelo em distancia_musical:
@@ -33,7 +34,9 @@ o código de barras de todas as notas:
 python3 stats_music_initial_time.py -s macarena -b true
 ```
 
-#Estatísticas
+Estatísticas
+============
+
 O arquivo stats_metrics.py possui as métricas de avaliação dos dados.
 Atualmente, a Lei de Zipf e Herdan-Heaps podem ser avaliadas com os métodos
 implementados.
