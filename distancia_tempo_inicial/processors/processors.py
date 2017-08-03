@@ -1,22 +1,23 @@
 import getopt
 import sys
 
-def get_arguments(args):
-    song_name = ''
-    make_bar_code = ''
+def get_arguments(params, args = sys.argv[1:]):
+    sattr, lattr, example = params
+    attr, attr2 = '', ''
     try:
-        opts, args = getopt.getopt(args,"hs:b:",["song=","bar_code="])
+        opts, args = getopt.getopt(args, '{}{}:{}:'.format(*sattr), lattr)
     except:
         print('You should run this file like:'
-                'script.py -s song_name -bc True/False')
+        'script.py -{} {} -{} {}'.format(sattr[1], example[0], sattr[2], example[1]))
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
             print('You should run this file like:'
-                    'script.py -s song_name -bc True/False')
+                    'script.py -{} {} -{} {}'.format(sattr[1], example[0],
+                    sattr[2], example[1]))
             sys.exit()
-        elif opt in ("-s", "--song"):
-            song_name = arg
-        elif opt in ("-b", "--bar_code"):
-            make_bar_code = arg.lower() in ['true']
-    return song_name, make_bar_code
+        elif opt in ("-{}".format(sattr[1]), "--{}".format(lattr[0])):
+            attr = arg
+        elif opt in ("-{}".format(sattr[2]), "--{}".format(lattr[1])):            
+            attr2 = arg
+    return attr, attr2

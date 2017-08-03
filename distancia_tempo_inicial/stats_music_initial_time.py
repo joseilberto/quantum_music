@@ -53,7 +53,9 @@ def intensity_handler(song):
                 break
     return pd.Series(song_notes)
 
-song_name, make_bar_code = get_arguments(sys.argv[1:])
+params = [['h', 's', 'b'], ["song=","bar_code="], ['song_name', 'true/false']]
+song_name, make_bar_code = get_arguments(params)
+make_bar_code = make_bar_code.lower() in ['true']
 # song_name = 'macarena'
 os.makedirs('{}_bar_code'.format(song_name), exist_ok=True)
 dir_path = './{}_bar_code/'.format(song_name)

@@ -24,7 +24,7 @@ def verify_summary(summary_file, song_name):
     1 - Verifica se o arquivo de resumo já foi criado.
     2 - Verifica se a música já possui dados no arquivo e os deleta.
     """
-    summary_fields = ['size', 'Ntokens', 'k_max', 'song']
+    summary_fields = ['T', 'N', 'kmax', 'song']
     if not os.path.isfile(summary_file):
         with open(summary_file, 'w') as file1:
             print('{},{},{},{}'.format(*summary_fields), file=file1)
