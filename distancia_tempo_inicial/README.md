@@ -27,6 +27,12 @@ A#00
 (A última nota é omitida uma vez que não temos como referência qual será a
 diferença de altura para próxima nota)
 
+Para executar o script para o arquivo macarena_file_colunas_novo.txt e gerar
+o código de barras de todas as notas:
+```bash
+python3 stats_music_initial_time.py -s macarena -b true
+```
+
 #Estatísticas
 O arquivo stats_metrics.py possui as métricas de avaliação dos dados.
 Atualmente, a Lei de Zipf e Herdan-Heaps podem ser avaliadas com os métodos

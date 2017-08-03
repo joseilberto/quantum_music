@@ -13,9 +13,7 @@ def frequency_data(notes, song_name):
             print('{},{}'.format(freq, zipf_dict[freq]), file=file1)
 
 def general_data(notes, song_name):
-    os.makedirs('{}_estatisticas'.format(song_name), exist_ok=True)
-    dir_path = './{}_estatisticas/'.format(song_name)
-    summary_file = dir_path + 'data_summary.csv'
+    summary_file = 'data_summary.csv'
     verify_summary(summary_file, song_name)
     with open(summary_file, 'a') as file1:
         print('{},{},{},{}'.format(*get_summary(notes), song_name), file=file1)
