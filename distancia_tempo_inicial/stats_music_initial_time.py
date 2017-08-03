@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import sys
 from collections import Counter, OrderedDict
-from stats_metrics import frequency_data
+from stats_metrics import frequency_data, general_data
 
 def find_sigma(distances):
     sigmas = []
@@ -65,6 +65,7 @@ if verbose:
     print_bar_code(song, dir_path) #print all positions from all notes
 
 frequency_data(song['notes'], song_name)
+general_data(song['notes'], song_name)
 
 note_counts = Counter(list(song['notes'])).most_common() #returns the notes and their counts
 distances = find_distances(note_counts, song['initial'], dir_path) #returns the values and their counts
