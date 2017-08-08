@@ -44,12 +44,17 @@ implementados.
 Plots
 ============
 
-O código plot já é capaz de gerar gráficos para ilustras as leis de Zipf e
-Herdan-Heaps. Um exemplo do uso de plots.py para cada uma das leis é:
+O código plot já é capaz de gerar gráficos para ilustrar as leis de Zipf e
+Herdan-Heaps, assim como gerar os gráficos com código de barra para as posições
+dos tokens. Seguem abaixo alguns exemplos do uso do plots.py:
 ```bash
 python3 plots.py -s macarena -p zipf
 ```
 
 ```bash
 python3 plots.py -p herdan-heaps
+```
+
+```bash
+python3 plots.py -s macarena -p bar_code
 ```

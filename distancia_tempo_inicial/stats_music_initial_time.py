@@ -36,9 +36,10 @@ def print_bar_code(song, dir_path):
     """
     for note_token in set(song['notes']):
         with open(dir_path + str(note_token) + '_bar_code.csv', 'w') as file1:
+            print('pos,handler', file=file1)            
             for idx, note in enumerate(song['notes']):
                 if note_token == note:
-                    print('{},{}'.format(song['initial'], 1), file=file1)
+                    print('{},{}'.format(song['initial'][idx], 1), file=file1)
 
 def clear_channel(note):
     return ''.join([char for char in note if char != ' ' and not char.isdigit()])
