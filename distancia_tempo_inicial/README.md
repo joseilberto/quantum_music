@@ -40,21 +40,3 @@ Estatísticas
 O arquivo stats_metrics.py possui as métricas de avaliação dos dados.
 Atualmente, a Lei de Zipf e Herdan-Heaps podem ser avaliadas com os métodos
 implementados.
-
-Plots
-============
-
-O código plot já é capaz de gerar gráficos para ilustrar as leis de Zipf e
-Herdan-Heaps, assim como gerar os gráficos com código de barra para as posições
-dos tokens. Seguem abaixo alguns exemplos do uso do plots.py:
-```bash
-python3 plots.py -s macarena -p zipf
-```
-
-```bash
-python3 plots.py -p herdan-heaps
-```
-
-```bash
-python3 plots.py -s macarena -p bar_code
-```
