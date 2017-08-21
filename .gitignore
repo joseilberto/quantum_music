@@ -1,0 +1,14 @@
+# Pastas
+/__pycache__/
+
+# Arquivos de dados
+*.txt
+*.dat
+*.yml
+*.csv
+
+# Arquivos de imagem
+*.eps
+
+# Jupyter Notebooks
+*.ipynb
