@@ -3,33 +3,35 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import os
+import sys
+sys.path.append(os.path.abspath('..'))
 from processors.processors import get_arguments
 
-def plot_zipf(song_name):
+def plot_zipf(song_name, method):
     if not song_name:
         print('Enter a song name with -s parameter')
-    frequency_data = '{}_estatisticas/frequency_data.csv'.format(song_name)
+    frequency_data = '{}/{}_estatisticas/frequency_data.csv'.format(method, song_name)
     df = pd.read_csv(frequency_data, sep = ',')
     f, ax = plt.subplots(figsize = (7,7))
     ax.set(xscale='log', yscale='log')
     plot = sns.regplot('k', 'n(k)', df, ax=ax, scatter_kws={'s': 100}, fit_reg=False)
-    plot.get_figure().savefig('{}_zipf.eps'.format(song_name))
+    plot.get_figure().savefig('{}/{}_zipf.eps'.format(method, song_name))
 
-def plot_hh(song_name):
-    summary_data = 'data_summary.csv'
+def plot_hh(song_name, method):
+    summary_data = '{}/data_summary.csv'.format(method)
     df = pd.read_csv(summary_data, sep=',')
     f, ax = plt.subplots(figsize = (7,7))
     ax.set(xscale='log', yscale='log')
     plot = sns.regplot('N', 'T', df, ax=ax, scatter_kws={'s': 100}, fit_reg=False)
-    plot.get_figure().savefig('herdan-heaps.eps')
+    plot.get_figure().savefig('{}/herdan-heaps.eps'.format(method))
 
-def plot_bars(song_name):
+def plot_bars(song_name, method):
     if not song_name:
         print('Enter a song name with -s parameter')
-    os.makedirs('{}_bar_code/plots'.format(song_name), exist_ok=True)
-    for file1 in os.listdir('{}_bar_code'.format(song_name)):
+    os.makedirs('{}/{}_bar_code/plots'.format(method, song_name), exist_ok=True)
+    for file1 in os.listdir('{}/{}_bar_code/'.format(method, song_name)):
         if file1.endswith('.csv'):
-            make_bar_plot('{}_bar_code/'.format(song_name) + file1)
+            make_bar_plot('{}/{}_bar_code/'.format(method, song_name) + file1)
 
 def make_bar_plot(file1):
     df = pd.read_csv(file1, sep=',')
@@ -44,13 +46,13 @@ def make_bar_plot(file1):
         plt.clf()
 
 
-params = [['h', 's', 'p'], ["song=","plot="], ['song_name', 'zipf']]
-song_name, plot_type = get_arguments(params)
+params = [['h', 's', 'p', 'm'], ["song=","plot="], ['song_name', 'zipf'], ['method=', 'distancia_musical']]
+song_name, plot_type, method = get_arguments(params)
 if 'zipf' in plot_type:
-    plot_zipf(song_name)
+    plot_zipf(song_name, method)
 elif 'herdan-heaps' in plot_type:
-    plot_hh(song_name)
+    plot_hh(song_name, method)
 elif 'bar_code' in plot_type:
-    plot_bars(song_name)
+    plot_bars(song_name, method)
 else:
     print('Plot not yet implemented.')

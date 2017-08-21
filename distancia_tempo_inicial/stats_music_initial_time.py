@@ -3,8 +3,8 @@ import pandas as pd
 import os
 import sys
 from collections import Counter, OrderedDict
+sys.path.append(os.path.abspath('..'))
 from stats_metrics import frequency_data, general_data
-
 from processors.processors import get_arguments
 
 def find_sigma(distances):
@@ -36,7 +36,7 @@ def print_bar_code(song, dir_path):
     """
     for note_token in set(song['notes']):
         with open(dir_path + str(note_token) + '_bar_code.csv', 'w') as file1:
-            print('pos,handler', file=file1)            
+            print('pos,handler', file=file1)
             for idx, note in enumerate(song['notes']):
                 if note_token == note:
                     print('{},{}'.format(song['initial'][idx], 1), file=file1)
@@ -55,7 +55,7 @@ def intensity_handler(song):
     return pd.Series(song_notes)
 
 params = [['h', 's', 'b'], ["song=","bar_code="], ['song_name', 'true/false']]
-song_name, make_bar_code = get_arguments(params)
+song_name, make_bar_code, _ = get_arguments(params)
 make_bar_code = make_bar_code.lower() in ['true']
 # song_name = 'macarena'
 os.makedirs('{}_bar_code'.format(song_name), exist_ok=True)
