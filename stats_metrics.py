@@ -12,11 +12,13 @@ def frequency_data(notes, song_name):
         for freq in zipf_dict.keys():
             print('{},{}'.format(freq, zipf_dict[freq]), file=file1)
 
+
 def general_data(notes, song_name):
     summary_file = 'data_summary.csv'
     verify_summary(summary_file, song_name)
     with open(summary_file, 'a') as file1:
         print('{},{},{},{}'.format(*get_summary(notes), song_name), file=file1)
+
 
 def verify_summary(summary_file, song_name):
     """
@@ -36,8 +38,22 @@ def verify_summary(summary_file, song_name):
                 if song_name not in line:
                     file1.write(line)
 
+
 def get_summary(notes):
     T = len(notes)
     V = len(set(notes))
     k_max = Counter(notes).most_common()[0][1]
     return T, V, k_max
+
+
+def print_bar_code(song, dir_path):
+    """
+    Para que seja feita a impressão, executar o script com qualquer argumento. Exemplo:
+    python3 stats_music_initial_time.py verbose
+    """
+    for note_token in set(song['notes']):
+        with open(dir_path + str(note_token) + '_bar_code.csv', 'w') as file1:
+            print('pos,handler', file=file1)
+            for idx, note in enumerate(song['notes']):
+                if note_token == note:
+                    print('{},{}'.format(song['initial'][idx], 1), file=file1)
